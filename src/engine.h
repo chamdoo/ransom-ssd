@@ -52,6 +52,13 @@ typedef struct _tdetect
 	struct _tdetect *next;
 }tdetect;
 
+typedef struct _tdetect_window
+{
+	uint cnt_win;
+	tdetect **detect;
+	uint *total_io;
+}tdetect_win;
+
 typedef struct _tiocount
 {
 	ulong sec;
@@ -75,12 +82,16 @@ int save_csv_iocount(char *path, tiocount **iocount);
 
 /* detect */
 int init_detect(tdetect **detect);
-tdetect *add_detect(tdetect *detect);
 int free_detect(tdetect **detect);
+tdetect *add_detect(tdetect *detect);
 tdetect *find_detect(ulong64 sector, tdetect *detect);
 int get_detect(tio *io, tdetect **detect, uint *total_io);
 tio *get_detect_time(tio *io, ulong sec, tdetect **detect, uint *total_io);
 int get_detect_max_cnt(tdetect *detect);
+
+/* detect_win */
+int init_detect_win(uint cnt_win, tdetect_win **detect_win);
+int free_detect_win(tdetect_win **detect_win);
 
 /* sec */
 int init_iocount(tiocount **iocount);
