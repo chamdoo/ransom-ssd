@@ -10,14 +10,10 @@
 char *get_csv_parse_line(char *line, char **time, char **io, char **sector, char **bytes)
 {
 	char *p = NULL;
-	char buf[255] = {0,};
 	char sep = ',';
 
 	p = line;
-	//p = split_char(p, sep, buf);
 	p = split_char(p, sep, time);
-	//p = split_char(p, sep, buf);
-	//p = split_char(p, sep, buf);
 	p = split_char(p, sep, io);
 	p = split_char(p, sep, sector);
 	p = split_char(p, sep, bytes);
@@ -116,36 +112,36 @@ int load_csv_data(char *path, tio **io)
 	return 0;
 }
 
-int save_csv_detect(char *path, uint total_io, tdetect **detect)
+int save_csv_detect(char *path, uint time, uint total_io, tdetect **detect)
 {
 	file *fp = NULL;
 	char line[MAX_CSV_LINE] = {0,};
 	tdetect *p = NULL, *buf = NULL;
-	uint max = 0;
-	double rgb = 0;
+	uint cnt = 0, max = 0;
 
 	if(detect == NULL) return -1;
-
-	p = *detect;
 
 	if((fp = fopen(path, "a+")) == NULL)
 		return -1;
 
-	max = get_detect_max_cnt(*detect);
-	while(p != NULL)
+	//max = get_detect_max_cnt(*detect);
+
+	p = *detect;
+	while(p != NULL)	// count node
 	{
 		if(p->cnt > 0)
-		{
-			//=TEXT(DEC2HEX(IF(D1/MAX($D$1:$D$302)*255>255, 255, D1/MAX($D$1:$D$302)*255)), "00")
-			rgb = ((double)p->cnt / (double)max)*255;
-			rgb = rgb > 255 ? 255 : rgb;
-			//sprintf(line, "%d.%d, %d, %d, %d, %.2X\n", p->sec, p->nano_sec, p->sector, p->cnt, p->bytes, (unsigned char)rgb);
-			sprintf(line, "%l.%l, %l, %d, %d, %f\n", p->sec, p->nano_sec, p->sector, p->cnt, p->bytes, ((double)p->cnt / (double)total_io) * 100);
-			fputs(line, fp);
-			memset(line, 0x00, sizeof(line));
-		}
+			cnt ++;
 		p = p->next;
 	}
+
+	sprintf(line,
+			"%d, %d, %d, %f\n",
+			time,
+			cnt,
+			total_io,
+			((double)cnt / (double)total_io) * 100);
+	fputs(line, fp);
+	memset(line, 0x00, sizeof(line));
 	fclose(fp);
 	return 0;
 }
@@ -165,7 +161,7 @@ int save_csv_iocount(char *path, tiocount **iocount)
 
 	while(p != NULL)
 	{
-		sprintf(line, "%l,%d,%d\n", p->sec, p->cnt_r, p->cnt_w);
+		sprintf(line, "%Lu,%d,%d\n", p->sec, p->cnt_r, p->cnt_w);
 		fputs(line, fp);
 		memset(line, 0x00, sizeof(line));
 
