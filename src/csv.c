@@ -116,8 +116,8 @@ int save_csv_detect(char *path, uint time, uint total_io, tdetect **detect)
 {
 	file *fp = NULL;
 	char line[MAX_CSV_LINE] = {0,};
-	tdetect *p = NULL, *buf = NULL;
-	uint cnt = 0, max = 0;
+	tdetect *p = NULL;
+	uint cnt = 0;
 
 	if(detect == NULL) return -1;
 
@@ -150,7 +150,7 @@ int save_csv_iocount(char *path, tiocount **iocount)
 {
 	file *fp = NULL;
 	char line[MAX_CSV_LINE] = {0,};
-	tiocount *p = NULL, *buf = NULL;
+	tiocount *p = NULL;
 
 	if(iocount == NULL) return -1;
 

@@ -22,7 +22,7 @@
 #define PER_SCAN_BYTES		0.80
 #define MAX_SCAN_TIME		5
 #define MAX_SCAN_NUM		1000
-#define MAX_WINDOW_TIME		10
+#define MAX_WINDOW_TIME		5
 
 typedef unsigned long long ulong64;
 typedef unsigned long ulong;
