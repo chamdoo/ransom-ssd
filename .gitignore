@@ -33,3 +33,7 @@
 *.su
 /Debug/
 /Release/
+
+# User Data
+*.csv#
+*.fuse_hidden*
