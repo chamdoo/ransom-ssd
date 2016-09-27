@@ -18,8 +18,8 @@
 #else
 #endif
 #define MAX_CSV_LINE			1024
-#define PER_SCAN_COUNTER	0.80
-#define PER_SCAN_BYTES		0.80
+#define PER_SCAN_COUNTER		0.80
+#define PER_SCAN_BYTES			0.80
 #define MAX_SCAN_TIME			5
 #define MAX_SCAN_NUM			1000
 

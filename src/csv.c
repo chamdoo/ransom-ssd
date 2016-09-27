@@ -140,7 +140,7 @@ int save_csv_detect(char *path, uint total_io, tdetect **detect)
 			rgb = ((double)p->cnt / (double)max)*255;
 			rgb = rgb > 255 ? 255 : rgb;
 			//sprintf(line, "%d.%d, %d, %d, %d, %.2X\n", p->sec, p->nano_sec, p->sector, p->cnt, p->bytes, (unsigned char)rgb);
-			sprintf(line, "%d.%d, %d, %d, %d, %f\n", p->sec, p->nano_sec, p->sector, p->cnt, p->bytes, ((double)p->cnt / (double)total_io) * 100);
+			sprintf(line, "%l.%l, %l, %d, %d, %f\n", p->sec, p->nano_sec, p->sector, p->cnt, p->bytes, ((double)p->cnt / (double)total_io) * 100);
 			fputs(line, fp);
 			memset(line, 0x00, sizeof(line));
 		}
@@ -165,7 +165,7 @@ int save_csv_iocount(char *path, tiocount **iocount)
 
 	while(p != NULL)
 	{
-		sprintf(line, "%d,%d,%d\n", p->sec, p->cnt_r, p->cnt_w);
+		sprintf(line, "%l,%d,%d\n", p->sec, p->cnt_r, p->cnt_w);
 		fputs(line, fp);
 		memset(line, 0x00, sizeof(line));
 
