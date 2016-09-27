@@ -37,3 +37,6 @@
 # User Data
 *.csv#
 *.fuse_hidden*
+/.settings
+.cproject
+.project
