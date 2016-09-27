@@ -1,0 +1,11 @@
+plot 'zerber.nqz.detect.csv' using 1:3 w impulses,\
+'blktrace_sdc2(surf_ransom)2_list.detect.csv' using ($1 + 1000):3 w impulses,\
+'blktrace_sdc2(web_surfing)_list.detect.csv' using ($1 + 2000):3 w impulses,\
+'blktrace_sdc2(install_sw)_list.detect.csv' using ($1 + 3000):3 w impulses
+
+
+
+plot 'zerber.nqz.detect.csv' using 1:4 w impulses,\
+'blktrace_sdc2(surf_ransom)2_list.detect.csv' using ($1 + 1000):4 w impulses,\
+'blktrace_sdc2(web_surfing)_list.detect.csv' using ($1 + 2000):4 w impulses,\
+'blktrace_sdc2(install_sw)_list.detect.csv' using ($1 + 3000):4 w impulses
