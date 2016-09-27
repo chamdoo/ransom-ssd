@@ -61,17 +61,13 @@ int main()
 			time = 0;
 			while(p_io != NULL)
 			{
-				if(time + i_win == 230)
-					printf("a");
 				//p_io_start = find_io_time(p_io, time + i_win);
 				p_io_start = find_io_near_time(p_io, time + i_win);
 				if(p_io_start == NULL) break;
-				p_io_next = get_detect_time(p_io_start, time + MAX_WINDOW_TIME, &detect, &total_io);
+				p_io_next = get_detect_time(p_io_start, time + 10, &detect, &total_io);
 				memset(fpath, 0x00, sizeof(fpath));
 				sprintf(fpath, "%soutput/%s.detect%s", g_path, (char*)g_files[i_file], g_ext);
 
-				if(time + i_win == 209)
-					printf("b");
 				if(total_io > 0)
 					save_csv_detect(fpath, time + i_win, total_io, &detect);
 				time += MAX_WINDOW_TIME;
