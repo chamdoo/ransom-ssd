@@ -116,7 +116,7 @@ int load_csv_data(char *path, tio **io)
 	return 0;
 }
 
-int save_csv_detect(char *path, tdetect **detect)
+int save_csv_detect(char *path, uint total_io, tdetect **detect)
 {
 	file *fp = NULL;
 	char line[MAX_CSV_LINE] = {0,};
@@ -128,7 +128,7 @@ int save_csv_detect(char *path, tdetect **detect)
 
 	p = *detect;
 
-	if((fp = fopen(path, "w")) == NULL)
+	if((fp = fopen(path, "a+")) == NULL)
 		return -1;
 
 	max = get_detect_max_cnt(*detect);
@@ -139,7 +139,8 @@ int save_csv_detect(char *path, tdetect **detect)
 			//=TEXT(DEC2HEX(IF(D1/MAX($D$1:$D$302)*255>255, 255, D1/MAX($D$1:$D$302)*255)), "00")
 			rgb = ((double)p->cnt / (double)max)*255;
 			rgb = rgb > 255 ? 255 : rgb;
-			sprintf(line, "%d.%d, %d, %d, %d, %.2X\n", p->sec, p->nano_sec, p->sector, p->cnt, p->bytes, (unsigned char)rgb);
+			//sprintf(line, "%d.%d, %d, %d, %d, %.2X\n", p->sec, p->nano_sec, p->sector, p->cnt, p->bytes, (unsigned char)rgb);
+			sprintf(line, "%d.%d, %d, %d, %d, %f\n", p->sec, p->nano_sec, p->sector, p->cnt, p->bytes, ((double)p->cnt / (double)total_io) * 100);
 			fputs(line, fp);
 			memset(line, 0x00, sizeof(line));
 		}

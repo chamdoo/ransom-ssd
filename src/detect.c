@@ -70,12 +70,15 @@ int get_detect_max_cnt(tdetect *detect)
 	return max;
 }
 
-int get_detect(tio *io, tdetect **detect)
+int get_detect(tio *io, tdetect **detect, uint **total_io)
 {
 	tio *p_io = NULL;
 	tdetect *p_detect = NULL;
 
 	if(detect == NULL) return -1;
+	if(total_io == NULL) return -1;
+
+	*total_io = 0;
 	p_io = io;
 	while(p_io != NULL)
 	{
@@ -106,7 +109,58 @@ int get_detect(tio *io, tdetect **detect)
 				p_detect->bytes += p_io->bytes;
 			}
 		}
+		*total_io ++;
 		p_io = p_io->next;
 	}
 	return 0;
+}
+
+tio *get_detect_time(tio *io, ulong sec, tdetect **detect, uint *total_io)
+{
+	tio *p_io = NULL;
+	tdetect *p_detect = NULL;
+	ulong sec_start = 0;
+	uint total = 0;
+
+	if(detect == NULL) return -1;
+	if(total_io == NULL) return -1;
+
+	*total_io = 0;
+	p_io = io;
+	sec_start = p_io->sec;
+	while(p_io != NULL)
+	{
+		if(p_io->sec > io->sec + sec) break;
+		if(p_io->mark == 'R')	// Read IO?
+		{
+			// 기존에 있던 섹터인지 체크 후, 새로운 섹터만 리스트에 쌓아둔다
+			if(find_detect(p_io->sector, *detect) == NULL)
+			{
+				if(*detect == NULL)
+				{
+					init_detect(detect);
+					p_detect = *detect;
+				}
+				else
+				{
+					p_detect = add_detect(*detect);
+				}
+				p_detect->sec = p_io->sec;
+				p_detect->nano_sec = p_io->nano_sec;
+				p_detect->sector = p_io->sector;
+			}
+		}
+		else if(p_io->mark == 'W')
+		{
+			if((p_detect = find_detect(p_io->sector, *detect)) != NULL)
+			{
+				p_detect->cnt ++;
+				p_detect->bytes += p_io->bytes;
+			}
+		}
+		total ++;
+		p_io = p_io->next;
+	}
+	*total_io = total;
+	return p_io;
 }

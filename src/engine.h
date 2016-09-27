@@ -47,7 +47,7 @@ typedef struct _tdetect
 	uint nano_sec;
 	ulong64 sector;
 	uint bytes;
-	uint cnt;
+	uint cnt;	// wmib
 	struct _tdetect *next;
 }tdetect;
 
@@ -69,7 +69,7 @@ int free_io(tio **io);
 
 /* csv */
 int load_csv_data(char *path, tio **io);
-int save_csv_detect(char *path, tdetect **detect);
+int save_csv_detect(char *path, uint total_io, tdetect **detect);
 int save_csv_iocount(char *path, tiocount **iocount);
 
 /* detect */
@@ -77,7 +77,8 @@ int init_detect(tdetect **detect);
 tdetect *add_detect(tdetect *detect);
 int free_detect(tdetect **detect);
 tdetect *find_detect(ulong64 sector, tdetect *detect);
-int get_detect(tio *io, tdetect **detect);
+int get_detect(tio *io, tdetect **detect, uint **total_io);
+tio *get_detect_time(tio *io, ulong sec, tdetect **detect, uint *total_io);
 int get_detect_max_cnt(tdetect *detect);
 
 /* sec */
