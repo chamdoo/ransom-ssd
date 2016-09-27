@@ -74,6 +74,8 @@ uint dp_point(uint dp, uint digit);
 /* io */
 int init_io(tio **io);
 int free_io(tio **io);
+tio *find_io_time(tio *io, ulong sec);
+tio *find_io_near_time(tio *io, ulong sec);
 
 /* csv */
 int load_csv_data(char *path, tio **io);
@@ -86,7 +88,7 @@ int free_detect(tdetect **detect);
 tdetect *add_detect(tdetect *detect);
 tdetect *find_detect(ulong64 sector, tdetect *detect);
 int get_detect(tio *io, tdetect **detect, uint *total_io);
-tio *get_detect_time(tio *io, ulong sec, tdetect **detect, uint *total_io);
+tio *get_detect_time(tio *io, ulong last_sec, tdetect **detect, uint *total_io);
 int get_detect_max_cnt(tdetect *detect);
 
 /* detect_win */

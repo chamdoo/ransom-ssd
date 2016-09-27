@@ -33,3 +33,42 @@ int free_io(tio **io)
 	return 0;
 }
 
+ulong get_io_last_time(tio *io)
+{
+	tio *p = NULL;
+	p = io;
+	while(p->next != NULL)
+	{
+		p = p->next;
+	}
+	return p->sec;
+}
+
+tio *find_io_time(tio *io, ulong sec)
+{
+	tio *p = NULL;
+	p = io;
+	while(p != NULL)
+	{
+		if(p->sec == sec) return p;
+		p = p->next;
+	}
+	return NULL;
+}
+
+tio *find_io_near_time(tio *io, ulong sec)
+{
+	tio *p = NULL, *p_io = NULL;
+	ulong next_sec = 0, last_sec = 0;
+
+	last_sec = get_io_last_time(io);
+	next_sec = sec;
+	while(next_sec <= last_sec)
+	{
+		if((p = find_io_time(io, next_sec)) != NULL)
+			return p;
+		else
+			next_sec ++;
+	}
+	return NULL;
+}

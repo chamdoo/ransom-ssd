@@ -117,7 +117,7 @@ int get_detect(tio *io, tdetect **detect, uint *total_io)
 	return 0;
 }
 
-tio *get_detect_time(tio *io, ulong sec, tdetect **detect, uint *total_io)
+tio *get_detect_time(tio *io, ulong last_sec, tdetect **detect, uint *total_io)
 {
 	tio *p_io = NULL;
 	tdetect *p_detect = NULL;
@@ -130,7 +130,7 @@ tio *get_detect_time(tio *io, ulong sec, tdetect **detect, uint *total_io)
 	p_io = io;
 	while(p_io != NULL)
 	{
-		if(p_io->sec >= io->sec + sec) break;
+		if(p_io->sec >= last_sec) break;
 		if(p_io->mark == 'R')	// Read IO?
 		{
 			// 기존에 있던 섹터인지 체크 후, 새로운 섹터만 리스트에 쌓아둔다
